@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classes e exceções</title>
+<style>
+        .gradient-custom {
+        /* fallback for old browsers */
+        background: #f093fb;
+
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: -webkit-linear-gradient(to bottom right, rgb(158, 112, 218), rgb(87, 245, 245));
+
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: linear-gradient(to bottom right, rgb(158, 112, 218), rgb(87, 245, 245))
+        }
+
+        .card-registration .select-input.form-control[readonly]:not([disabled]) {
+        font-size: 1rem;
+        line-height: 2.15;
+        padding-left: .75em;
+        padding-right: .75em;
+        }
+        .card-registration .select-arrow {
+        top: 13px;
+        }
+</style>
+</head>
+
+<section class="vh-100 gradient-custom">
+    <div class="container py-5 h-100">
+      <div class="row justify-content-center align-items-center h-100">
+        <div class="col-12 col-lg-9 col-xl-7">
+          <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+            <div class="card-body p-4 p-md-5">
+              <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Registro de Funcionários</h3>
+              <form>
+  
+                <div class="row">
+                  <div class="col-md-6 mb-4">
+  
+                    <div class="form-outline">
+                      <input type="text" id="nome" class="form-control form-control-lg" required />
+                      <label class="form-label" for="firstName" req>Nome</label>
+                    </div>
+  
+                  </div>
+                  <div class="col-md-6 mb-4">
+  
+                    <div class="form-outline">
+                      <input type="text" id="cargo" class="form-control form-control-lg" required />
+                      <label class="form-label" for="lastName">Cargo</label>
+                    </div>
+  
+                  </div>
+                </div>
+  
+                <div class="row">
+                  <div class="col-md-6 mb-4 d-flex align-items-center">
+  
+                    <div class="form-outline datepicker w-100">
+                      <input type="text" class="form-control form-control-lg" id="idade"  required/>
+                      <label for="idade" class="form-label">Idade</label>
+                    </div>
+  
+                  </div>
+                  <div class="col-md-6 mb-4 d-flex align-items-center">
+  
+                    <div class="form-outline datepicker w-100">
+                      <input type="text" class="form-control form-control-lg" required id="departamento" onchange="checkDP()"/>
+                      <label for="departamento" class="form-label">Departamento</label>
+                    </div>
+  
+                  </div>
+                </div>
+  
+                <div class="row">
+                  <div class="col-md-6 mb-4 pb-2">
+  
+                    <div class="form-outline">
+                      <input type="text" id="linguagem" class="form-control form-control-lg" disabled required />
+                      <label class="form-label" for="linguagem">Linguagem</label>
+                    </div>
+  
+                  </div>
+                </div>  
+
+                <div class="mt-4 pt-2">                 
+                  <input id="cadastrar" class="btn btn-primary btn-lg" type="submit" value="Cadastrar" onclick="iniClasse()" style="float: right;"  />
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+      <footer>Desenvolvido por Pedro Ferraz</footer>
+</body>
+
+<script>
+        class Funcionario{
+            constructor(nome,idade,cargo,departamento){
+                this.nome = nome;
+                this.idade = idade;
+                this.cargo = cargo;
+                this.departamento = departamento;
+            };
+            seApresentar(){
+                alert("Nome: " + this.nome+ "\n" +
+                       "Idade: " + this.idade +"\n" +
+                        "Cargo: " + this.cargo+"\n" +
+                        "Departamento: " + this.departamento)
+            };
+            trabalhar(){
+              alert(this.nome + " já está trabalhando...")
+
+            };
+        }
+
+
+        class Gerente extends Funcionario{
+            constructor(nome,idade,cargo,departamento){
+                super(nome,idade,cargo);
+                this.departamento = departamento;
+            };
+            seApresentar(){
+              alert("Nome: " + this.nome+ "\n" +
+                       "Idade: " + this.idade +"\n" +
+                        "Cargo: " + this.cargo+"\n" +
+                          "Departamento: " + this.departamento)
+            };
+            gerenciar(){
+                alert(this.nome + " já está gerenciando...");
+            };
+
+        }
+
+
+        class Desenvolvedor extends Funcionario{
+            constructor(nome,idade,cargo,departamento,linguagem){
+                super(nome,idade,cargo);
+                this.departamento = departamento;
+                this.linguagem = linguagem;
+            };
+            seApresentar(){
+              alert("Nome: " + this.nome+ "\n" +
+                       "Idade: " + this.idade +"\n" +
+                        "Cargo: " + this.cargo+"\n" +
+                          "Departamento: " + this.departamento +"\n"+
+                            "Linguagem de programação: " + this.linguagem)
+            };
+            programar(){
+              alert(this.nome + " já está programando...");
+            };
+        }
+
+        function checkDP(){
+          const dpt = document.getElementById("departamento");
+          const lgn = document.getElementById("linguagem");
+          if (dpt.value.localeCompare("TI",undefined, { sensitivity: 'accent' }) === 0 ){
+              lgn.removeAttribute("disabled");
+              
+              
+          }else{
+            lgn.disabled = true
+              
+          };
+        };
+
+        function exibirErro(){
+          alert("houve um erro ao instanciar a classe")
+        };
+
+        function iniClasse(){
+
+
+          try {
+            var cargoFuncionario = document.getElementById("cargo")
+            console.log(cargoFuncionario.value)
+            var camposForm =
+            [
+              document.getElementById("nome"),
+              document.getElementById("cargo"),
+              document.getElementById("idade"),
+              document.getElementById("departamento"),
+              document.getElementById("linguagem")
+            ]
+           
+            if (cargoFuncionario.value.localeCompare("Gerente", undefined, { sensitivity: 'accent' }) === 0 ){
+                  var gerente = new Gerente(camposForm[0].value,camposForm[2].value,camposForm[1].value,camposForm[3].value)
+                  
+                  gerente.seApresentar();
+                  alert("Dados cadastrado com sucesso!");                  
+                  gerente.gerenciar()
+ 
+
+            }else if(cargoFuncionario.value.localeCompare("Desenvolvedor", undefined, { sensitivity: 'accent' }) === 0 ){
+
+              var desenvolvedor = new Desenvolvedor(camposForm[0].value,camposForm[2].value,camposForm[1].value,camposForm[3].value,camposForm[4].value)
+                  
+              desenvolvedor.seApresentar();
+              alert("Dados cadastrado com sucesso!") ;
+              desenvolvedor.programar();
+              
+            }else{
+              var funcionario = new Funcionario(camposForm[0].value,camposForm[2].value,camposForm[1].value,camposForm[3].value)
+                  
+              funcionario.seApresentar();
+              alert("Dados cadastrado com sucesso!");
+              funcionario.trabalhar();
+            }
+              } catch (error) {
+                exibirErro()
+          }
+        };
+
+   
+
+
+</script>
+</html>
